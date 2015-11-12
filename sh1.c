@@ -211,7 +211,8 @@ char		**ft_tab_copy(char **env)
 	i = 0;
 	while (env[i])
 		i++;
-	new_env = (char**)malloc(sizeof(char *) * (i + 1));
+	if (!(new_env = (char**)malloc(sizeof(char *) * (i + 1))))
+		return (NULL);
 	i = 0;
 	while (env[i])
 	{
@@ -230,7 +231,8 @@ char		**ft_tab_copy_extand(char **env)
 	i = 0;
 	while (env[i])
 		i++;
-	new_env = (char**)malloc(sizeof(char *) * (i + 2));
+	if (!(new_env = (char**)malloc(sizeof(char *) * (i + 2))))
+		return (NULL);
 	i = 0;
 	while (env[i])
 	{
@@ -312,7 +314,7 @@ char		*ft_str_triple_join(const char *s1, const char *s2, const char *s3)
 	const size_t	len2 = ft_strlen(s2);
 	const size_t	len3 = ft_strlen(s3);
 
-	if (!(finish_string = (char *)malloc(sizeof(char) * (len1 + len2 + len3))))
+	if (!(finish_string = (char *)malloc(sizeof(char) * (len1 + len2 + len3 + 1))))
 		return (NULL);
 	ft_memcpy(finish_string, s1, len1);
 	ft_memcpy(finish_string + len1, s2, len2);
@@ -330,7 +332,8 @@ char		*finding_bin(t_env *env)
 	char	*tmp;
 
 	i = 0;
-	tmp = getcwd(NULL, 0);
+	if (!(tmp = getcwd(NULL, 0)))
+		return (NULL);
 	file = ft_str_triple_join(tmp, "/", env->av[0]);
 	free(tmp);
 	if (is_executable(file))
@@ -367,7 +370,10 @@ void		exec_bin(t_env *c)
 	if (pid > 0)
 		waitpid(pid, &status, 0);
 	else if (pid == 0)
+	{
 		execve(c->path, c->av, c->my_env);
+		exit (0);
+	}
 	else
 		write(1, error, sizeof(error) - 1);
 	free(c->path);
