@@ -76,49 +76,53 @@ int			file_exist(char *str)
 		return (1);
 }
 
-void		builtin_cd(t_env *c)
+void		do_cd(t_env *c, char *moveto)
 {
 	char	**tmp;
-	char	*oldpwd;
 	char	*oldtmp;
+	char	*tmpgetcwd;
 
 	oldtmp = getcwd(NULL, 0);
-	if (ft_strcmp(c->av[1], "-") == 0)
-	{
-		if (!(oldpwd = get_env_value(c->my_env, "OLDPWD")))
-			write(1, ": No such file or directory.\n", 29);
-		else
-		{
-			if (chdir(oldpwd + 7) == -1)
-			{
-				write(1, "cd: ", 4);
-				write(1, oldpwd + 7, ft_strlen(oldpwd + 7));
-				write(1, ": No such file or directory\n", 28);
-				return ;
-			}
-			printf("oldpwd == %s\n getcwd === %s\n", oldtmp, getcwd(NULL, 0));
-			tmp = set_env_element(c->my_env, "OLDPWD", oldtmp);
-			ft_tab_free(c->my_env);
-			c->my_env = tmp;
-			tmp = set_env_element(c->my_env, "PWD", getcwd(NULL, 0));
-			ft_tab_free(c->my_env);
-			c->my_env = tmp;
-		}
-		return ;
-	}
-	if (chdir(c->av[1]) == -1)
+	if (chdir(moveto) == -1)
 	{
 		write(1, "cd: ", 4);
-		write(1, c->av[1], ft_strlen(c->av[1]));
+		write(1, moveto, ft_strlen(moveto));
 		write(1, ": No such file or directory\n", 28);
+		free(oldtmp);
 		return ;
 	}
 	tmp = set_env_element(c->my_env, "OLDPWD", oldtmp);
 	ft_tab_free(c->my_env);
 	c->my_env = tmp;
-	tmp = set_env_element(c->my_env, "PWD", getcwd(NULL, 0));
+	tmpgetcwd = getcwd(NULL, 0);
+	tmp = set_env_element(c->my_env, "PWD", tmpgetcwd);
+	free(tmpgetcwd);
 	ft_tab_free(c->my_env);
 	c->my_env = tmp;
+	free(oldtmp);
+}
+
+void		builtin_cd(t_env *c)
+{
+	char	*pwd;
+	const char	error[] = "cd: Too many arguments.\n";
+
+	if (c->ac > 2)
+		write(1, error, sizeof(error) - 1);
+	else if (c->ac == 1)
+	{
+		if ((pwd = get_env_value(c->my_env, "HOME")))
+			do_cd(c, pwd + 5);
+	}
+	else if (ft_strcmp(c->av[1], "-") == 0)
+	{
+		if (!(pwd = get_env_value(c->my_env, "OLDPWD")))
+			write(1, ": No such file or directory.\n", 29);
+		else
+			do_cd(c, pwd + 7);
+	}
+	else
+		do_cd(c, c->av[1]);
 }
 
 char		*new_env_line(char *av1, char *av2) // Leaks
