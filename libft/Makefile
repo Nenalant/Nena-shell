@@ -67,19 +67,25 @@ SRC = ft_atoi.c \
 	ft_open.c \
 	ft_close.c
 
+CC = gcc
+
 OBJ = $(SRC:.c=.o)
 
-all : $(NAME)
+FLAGS = -Wall -Wextra -Werror
 
-$(NAME) :
-	@gcc -Wall -Wextra -Werror -c $(SRC)
+all: $(NAME)
+
+$(NAME): $(OBJ)
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
 
-clean :
+%.o: %.c
+	$(CC) -c $(FLAGS) $< -o $@
+
+clean:
 	@rm -rf $(OBJ)
 
-fclean : clean
+fclean: clean
 	@rm -rf $(NAME)
 
-re : fclean all
+re: fclean all

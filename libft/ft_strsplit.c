@@ -26,6 +26,8 @@ static int	ft_size(char const *s, char c)
 			while (s[i] != c && s[i])
 				i++;
 			size++;
+			if (s[i] == '\0')
+				return (size);
 		}
 		i++;
 	}
@@ -81,6 +83,8 @@ static int	ft_wordsize(char const *s, char c, char **tab)
 			tab[j] = (char *)malloc(sizeof(char) * (wordsize + 1));
 			if (!tab[j])
 				return (0);
+			if (s[i] == '\0')
+				return (1);
 			j++;
 		}
 		i++;

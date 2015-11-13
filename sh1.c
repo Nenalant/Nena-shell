@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <libft.h>
 
-#define SHELL_NAME "Poucelina"
+#define SHELL_NAME "mychel"
 
 typedef	struct		s_env
 {
@@ -138,9 +138,7 @@ char		*new_env_line(char *av1, char *av2) // Leaks
 
 void		builtin_setenv(t_env *c)
 {
-	int		i;
 	int		j;
-	char	**new_env;
 	char	**tmp;
 
 	j = 0;
@@ -397,6 +395,8 @@ int			main(int ac, char **av, char **env)
 {
 	t_env	*c;
 
+	(void)ac;
+	(void)av;
 	if (!(c = (t_env *)malloc(sizeof(t_env))))
 		return (-1);
 	c->my_env = ft_tab_copy(env);
