@@ -1,7 +1,12 @@
 
 NAME = minishell
 
-SRC = sh1.c
+SRC =	minishell.c \
+		builtin.c \
+		builtin_env.c \
+		find_bin.c \
+		annex.c \
+		annex2.c
 
 FLAGS = -Wall -Wextra -Werror
 
