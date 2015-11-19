@@ -40,10 +40,14 @@ void		do_builtin(t_env *c)
 		builtin_cd(c);
 	else if (!ft_strcmp(c->av[0], "setenv"))
 		builtin_setenv(c);
+	else if (!ft_strcmp(c->av[0], "export"))
+		builtin_export(c);
 	else if (!ft_strcmp(c->av[0], "unsetenv"))
 		builtin_unsetenv(c);
 	else if (!ft_strcmp(c->av[0], "exit") || !ft_strcmp(c->av[0], "bye"))
 		builtin_exit(c);
+	else if (!ft_strcmp(c->av[0], "echo"))
+		builtin_echo(c);
 	else if ((c->path = finding_bin(c)))
 		exec_bin(c);
 	else

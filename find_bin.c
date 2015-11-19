@@ -12,6 +12,16 @@
 
 #include "minishell.h"
 
+void		ft_tab_free(char **env)
+{
+	int			i;
+
+	i = 0;
+	while (env[i])
+		free(env[i++]);
+	free(env);
+}
+
 char		*triple_join(t_env *env, char *file, char *line)
 {
 	char	**bins_tab;
@@ -53,4 +63,27 @@ char		*finding_bin(t_env *env)
 	if (!(line = get_env_value(env->my_env, "PATH")))
 		return (NULL);
 	return (triple_join(env, file, line));
+}
+
+void		builtin_export(t_env *c)
+{
+	int			i;
+	char		**tmp;
+	char		*ptr;
+
+	i = 1;
+	while (c->av[i])
+	{
+		if (!(ptr = ft_strchr(c->av[i], '=')))
+			tmp = set_env_element(c->my_env, c->av[i], "");
+		else
+		{
+			*ptr = '\0';
+			tmp = set_env_element(c->my_env, c->av[i], ptr + 1);
+			*ptr = '=';
+		}
+		ft_tab_free(c->my_env);
+		c->my_env = tmp;
+		i++;
+	}
 }

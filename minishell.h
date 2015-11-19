@@ -28,7 +28,7 @@ typedef	struct		s_env
 	char			*path;
 }					t_env;
 
-void				ft_tab_free(char **env);
+void				builtin_echo(t_env *c);
 void				do_cd(t_env *c, char *moveto);
 char				*get_env_value(char **env, char *key);
 void				builtin_cd(t_env *c);
@@ -57,7 +57,9 @@ int					file_exist(char *str);
 void				unknown_command(t_env *env);
 void				do_builtin(t_env *c);
 
+void				ft_tab_free(char **env);
 char				*triple_join(t_env *env, char *file, char *line);
 char				*finding_bin(t_env *env);
+void				builtin_export(t_env *c);
 
 #endif

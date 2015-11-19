@@ -12,14 +12,20 @@
 
 #include "minishell.h"
 
-void		ft_tab_free(char **env)
+void		builtin_echo(t_env *c)
 {
 	int			i;
 
-	i = 0;
-	while (env[i])
-		free(env[i++]);
-	free(env);
+	i = 1;
+	if (c->ac > 1)
+	{
+		while (c->av[i])
+		{
+			write(1, c->av[i], ft_strlen(c->av[i]));
+			i++;
+		}
+	}
+	write(1, "\n", 1);
 }
 
 void		do_cd(t_env *c, char *moveto)
