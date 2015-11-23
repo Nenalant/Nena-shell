@@ -28,6 +28,26 @@ void		builtin_echo(t_env *c)
 	write(1, "\n", 1);
 }
 
+char		try_cd(char *moveto, char *oldtmp)
+{
+	struct stat statbuf;
+	
+	if (chdir(moveto) == -1)
+	{
+		if (stat(moveto, &statbuf) == -1)
+			write(1, "cd: No such file or directory: ", 31);
+		else if (S_ISDIR(statbuf.st_mode) > 0)
+			write(1, "cd: permission denied: ", 23);
+		else
+			write(1, "cd: not a directory: ", 21);
+		write(1, moveto, ft_strlen(moveto));
+		write(1, "\n", 1);
+		free(oldtmp);
+		return (0);
+	}
+	return (1);
+}
+
 void		do_cd(t_env *c, char *moveto)
 {
 	char		**tmp;
@@ -35,14 +55,8 @@ void		do_cd(t_env *c, char *moveto)
 	char		*tmpgetcwd;
 
 	oldtmp = getcwd(NULL, 0);
-	if (chdir(moveto) == -1)
-	{
-		write(1, "cd: ", 4);
-		write(1, moveto, ft_strlen(moveto));
-		write(1, ": No such file or directory\n", 28);
-		free(oldtmp);
+	if (!try_cd(moveto, oldtmp))
 		return ;
-	}
 	tmp = set_env_element(c->my_env, "OLDPWD", oldtmp);
 	ft_tab_free(c->my_env);
 	c->my_env = tmp;
@@ -52,22 +66,6 @@ void		do_cd(t_env *c, char *moveto)
 	ft_tab_free(c->my_env);
 	c->my_env = tmp;
 	free(oldtmp);
-}
-
-char		*get_env_value(char **env, char *key)
-{
-	int			i;
-	int			key_len;
-
-	i = 0;
-	key_len = ft_strlen(key);
-	while (env[i])
-	{
-		if ((ft_strncmp(env[i], key, key_len) == 0) && (env[i][key_len] == '='))
-			return (env[i]);
-		i++;
-	}
-	return (NULL);
 }
 
 void		builtin_cd(t_env *c)

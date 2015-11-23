@@ -31,6 +31,22 @@ void		unknown_command(t_env *env)
 	write(1, "\n", 1);
 }
 
+char		*get_env_value(char **env, char *key)
+{
+	int			i;
+	int			key_len;
+
+	i = 0;
+	key_len = ft_strlen(key);
+	while (env[i])
+	{
+		if ((ft_strncmp(env[i], key, key_len) == 0) && (env[i][key_len] == '='))
+			return (env[i]);
+		i++;
+	}
+	return (NULL);
+}
+
 void		do_builtin(t_env *c)
 {
 	c->ac = get_ac(c->av);

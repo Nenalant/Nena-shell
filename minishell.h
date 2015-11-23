@@ -29,8 +29,8 @@ typedef	struct		s_env
 }					t_env;
 
 void				builtin_echo(t_env *c);
+char				try_cd(char *moveto, char *oldtmp);
 void				do_cd(t_env *c, char *moveto);
-char				*get_env_value(char **env, char *key);
 void				builtin_cd(t_env *c);
 void				builtin_exit(t_env *c);
 
@@ -55,6 +55,7 @@ char				*ft_str_triple_join(const char *s1, const char *s2,
 
 int					file_exist(char *str);
 void				unknown_command(t_env *env);
+char				*get_env_value(char **env, char *key);
 void				do_builtin(t_env *c);
 
 void				ft_tab_free(char **env);
