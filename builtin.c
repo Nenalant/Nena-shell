@@ -31,7 +31,7 @@ void		builtin_echo(t_env *c)
 char		try_cd(char *moveto, char *oldtmp)
 {
 	struct stat statbuf;
-	
+
 	if (chdir(moveto) == -1)
 	{
 		if (stat(moveto, &statbuf) == -1)
