@@ -80,8 +80,7 @@ static int	ft_wordsize(char const *s, char **tab)
 				wordsize++;
 				i++;
 			}
-			tab[j] = (char *)malloc(sizeof(char) * (wordsize + 1));
-			if (!tab[j])
+			if (!tab[j] = (char *)malloc(sizeof(char) * (wordsize + 1)))
 				return (0);
 			if (s[i] == '\0')
 				return (1);
