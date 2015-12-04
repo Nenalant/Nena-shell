@@ -11,11 +11,12 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#define ERROR SHELL_NAME": no such builtin: "
 
 void			builtin_builtin(t_env *c)
 {
 	int		i;
-	const char	error[] = SHELL_NAME": no such builtin: ";
+	const char	error[] = ERROR;
 
 	i = 0;
 	if (!c->av[1])
@@ -29,9 +30,27 @@ void			builtin_builtin(t_env *c)
 	c->av[i] = NULL;
 	if (do_builtin(c) == 0)
 	{
-		// write(1, SHELL_NAME, sizeof(SHELL_NAME) -1);
 		write(1, error, sizeof(error) - 1);
 		write(1, c->av[0], ft_strlen(c->av[0]));
 		write(1, "\n", 1);
+	}
+}
+
+void			launch_command(t_env *c)
+{
+	if (c->line && *c->line)
+	{
+		c->av = get_call_command(c->line);
+		if (c->av && c->av[0])
+		{
+			if (!do_builtin(c))
+			{
+				if ((c->path = finding_bin(c)))
+					exec_bin(c);
+				else
+					unknown_command(c);
+			}
+		}
+		ft_tab_free(c->av);
 	}
 }
