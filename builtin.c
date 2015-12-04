@@ -94,13 +94,14 @@ void		builtin_cd(t_env *c)
 void		builtin_exit(t_env *c)
 {
 	int		i;
-	char	*ptr;
 
-	ptr = c->line;
-	while (ptr[0] == ' ' || ptr[0] == '\t')
-		ptr++;
-	ptr += 4;
-	i = ft_atoi(ptr);
+	if (c->ac > 1)
+		i = ft_atoi(c->av[1]);
+	else
+		i = 0;
+	ft_tab_free(c->my_env);
+	ft_tab_free(c->av);
+	free(c->line);
 	free(c);
 	exit(i);
 }

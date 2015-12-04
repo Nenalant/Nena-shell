@@ -22,6 +22,7 @@ void			builtin_builtin(t_env *c)
 	if (!c->av[1])
 		return ;
 	c->ac--;
+	free(c->av[0]);
 	while (c->av[i + 1])
 	{
 		c->av[i] = c->av[i + 1];
