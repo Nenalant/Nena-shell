@@ -85,21 +85,7 @@ int			main(int ac, char **av, char **env)
 	write(1, "$> ", 3);
 	while (get_next_line(0, &c->line) == 1)
 	{
-		if (c->line && *c->line)
-		{
-			c->av = get_call_command(c->line);
-			if (c->av && c->av[0])
-			{
-				if (!do_builtin(c))
-				{
-					if ((c->path = finding_bin(c)))
-						exec_bin(c);
-					else
-						unknown_command(c);
-				}
-			}
-			ft_tab_free(c->av);
-		}
+		launch_command(c);
 		free(c->line);
 		write(1, "$> ", 3);
 	}
