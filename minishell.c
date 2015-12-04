@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.c                                          :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alanteri <alanteri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -47,10 +47,12 @@ char		*get_env_value(char **env, char *key)
 	return (NULL);
 }
 
-void		do_builtin(t_env *c)
+char		do_builtin(t_env *c)
 {
 	c->ac = get_ac(c->av);
-	if (!ft_strcmp(c->av[0], "env"))
+	if (!ft_strcmp(c->av[0], "builtin"))
+		builtin_builtin(c);
+	else if (!ft_strcmp(c->av[0], "env"))
 		builtin_env(c);
 	else if (!ft_strcmp(c->av[0], "cd"))
 		builtin_cd(c);
@@ -64,10 +66,11 @@ void		do_builtin(t_env *c)
 		builtin_exit(c);
 	else if (!ft_strcmp(c->av[0], "echo"))
 		builtin_echo(c);
-	else if ((c->path = finding_bin(c)))
-		exec_bin(c);
+	else if (!ft_strcmp(c->av[0], "pwd"))
+		builtin_pwd(c);
 	else
-		unknown_command(c);
+		return (0);
+	return (1);
 }
 
 int			main(int ac, char **av, char **env)
@@ -86,7 +89,15 @@ int			main(int ac, char **av, char **env)
 		{
 			c->av = get_call_command(c->line);
 			if (c->av && c->av[0])
-				do_builtin(c);
+			{
+				if (!do_builtin(c))
+				{
+					if ((c->path = finding_bin(c)))
+						exec_bin(c);
+					else
+						unknown_command(c);
+				}
+			}
 			ft_tab_free(c->av);
 		}
 		free(c->line);

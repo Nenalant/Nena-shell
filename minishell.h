@@ -56,11 +56,15 @@ char				*ft_str_triple_join(const char *s1, const char *s2,
 int					file_exist(char *str);
 void				unknown_command(t_env *env);
 char				*get_env_value(char **env, char *key);
-void				do_builtin(t_env *c);
+char				do_builtin(t_env *c);
 
+void				builtin_pwd(t_env *c);
 void				ft_tab_free(char **env);
 char				*triple_join(t_env *env, char *file, char *line);
 char				*finding_bin(t_env *env);
 void				builtin_export(t_env *c);
+
+void				builtin_builtin(t_env *c);
+char				do_builtin_builtin(t_env *c, int i);
 
 #endif

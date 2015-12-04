@@ -12,6 +12,13 @@
 
 #include "minishell.h"
 
+void		builtin_pwd(t_env *c)
+{
+	write(1, (get_env_value(c->my_env, "PWD") + 4), ft_strlen((get_env_value(c->my_env, "PWD") + 4)));
+	write(1, "\n", 1);
+	return ;
+}
+
 void		ft_tab_free(char **env)
 {
 	int			i;

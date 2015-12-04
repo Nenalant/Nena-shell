@@ -4,6 +4,7 @@ NAME = minishell
 SRC =	minishell.c \
 		builtin.c \
 		builtin_env.c \
+		builtin_builtin.c \
 		find_bin.c \
 		annex.c \
 		annex2.c
