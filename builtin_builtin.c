@@ -15,7 +15,7 @@
 
 void			builtin_builtin(t_env *c)
 {
-	int		i;
+	int			i;
 	const char	error[] = ERROR;
 
 	i = 0;
