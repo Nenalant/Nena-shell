@@ -56,9 +56,9 @@ void			launch_command(t_env *c)
 	}
 }
 
-void		do_unset(t_env *c, char *key)
+void			do_unset(t_env *c, char *key)
 {
-	int		i;
+	int			i;
 
 	i = id_pos(c->my_env, key);
 	if (i == -1)
@@ -72,7 +72,7 @@ void		do_unset(t_env *c, char *key)
 	c->my_env[i] = NULL;
 }
 
-void		builtin_unset(t_env *c)
+void			builtin_unset(t_env *c)
 {
 	int			i;
 	const char	error[] = "unsetenv: Too few arguments.\n";
