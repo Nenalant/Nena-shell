@@ -66,5 +66,7 @@ void				builtin_export(t_env *c);
 
 void				builtin_builtin(t_env *c);
 void				launch_command(t_env *c);
+void				do_unset(t_env *c, char *key);
+void				builtin_unset(t_env *c);
 
 #endif

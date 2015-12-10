@@ -55,3 +55,37 @@ void			launch_command(t_env *c)
 		ft_tab_free(c->av);
 	}
 }
+
+void		do_unset(t_env *c, char *key)
+{
+	int		i;
+
+	i = id_pos(c->my_env, key);
+	if (i == -1)
+		return ;
+	free(c->my_env[i]);
+	while (c->my_env[i + 1])
+	{
+		c->my_env[i] = c->my_env[i + 1];
+		i++;
+	}
+	c->my_env[i] = NULL;
+}
+
+void		builtin_unset(t_env *c)
+{
+	int			i;
+	const char	error[] = "unsetenv: Too few arguments.\n";
+
+	i = 1;
+	if (c->ac < 2)
+		write(1, error, sizeof(error) - 1);
+	else
+	{
+		while (c->av[i])
+		{
+			do_unset(c, c->av[i]);
+			i++;
+		}
+	}
+}

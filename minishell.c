@@ -60,6 +60,8 @@ char		do_builtin(t_env *c)
 		builtin_setenv(c);
 	else if (!ft_strcmp(c->av[0], "export"))
 		builtin_export(c);
+	else if (!ft_strcmp(c->av[0], "unset"))
+		builtin_unset(c);
 	else if (!ft_strcmp(c->av[0], "unsetenv"))
 		builtin_unsetenv(c);
 	else if (!ft_strcmp(c->av[0], "exit") || !ft_strcmp(c->av[0], "bye"))
