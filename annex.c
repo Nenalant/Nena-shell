@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-#define EXEC_BIN SHELL_NAME": command not found: "
+#define FORK_FAIL SHELL_NAME": fork failed: resource temporarily unavailable\n"
+#define BIN_ERROR SHELL_NAME": exec format error: "
 
 void		exec_bin(t_env *c)
 {
-	const char	error[] = EXEC_BIN;
 	int			pid;
 	int			status;
 
@@ -26,10 +26,13 @@ void		exec_bin(t_env *c)
 	else if (pid == 0)
 	{
 		execve(c->path, c->av, c->my_env);
+		write(1, BIN_ERROR, sizeof(BIN_ERROR) - 1);
+		write(1, c->av[0], ft_strlen(c->av[0]));
+		write(1, "\n", 1);
 		exit(0);
 	}
 	else
-		write(1, error, sizeof(error) - 1);
+		write(1, FORK_FAIL, sizeof(FORK_FAIL) - 1);
 	free(c->path);
 }
 

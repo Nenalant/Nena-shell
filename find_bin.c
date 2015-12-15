@@ -58,14 +58,15 @@ char		*finding_bin(t_env *env)
 	char	*file;
 	char	*tmp;
 
-	if (!(tmp = getcwd(NULL, 0)))
-		return (NULL);
-	file = ft_str_triple_join(tmp, "/", env->av[0]);
-	free(tmp);
-	if (is_executable(file))
-		return (file);
-	else
-		free(file);
+	if ((tmp = getcwd(NULL, 0)))
+	{
+		file = ft_str_triple_join(tmp, "/", env->av[0]);
+		free(tmp);
+		if (is_executable(file))
+			return (file);
+		else
+			free(file);
+	}
 	if (is_executable(env->av[0]))
 		return (ft_strdup(env->av[0]));
 	if (!(line = get_env_value(env->my_env, "PATH")))
