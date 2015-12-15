@@ -92,5 +92,7 @@ int			main(int ac, char **av, char **env)
 		free(c->line);
 		write(1, PROMPT, 3);
 	}
+	ft_tab_free(c->my_env);
+	free(c);
 	return (0);
 }

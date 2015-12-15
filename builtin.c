@@ -95,6 +95,7 @@ void		builtin_exit(t_env *c)
 {
 	int		i;
 
+	write(1, "exit\n", 5);
 	if (c->ac > 1)
 		i = ft_atoi(c->av[1]);
 	else

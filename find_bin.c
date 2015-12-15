@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#define BAD_ASS SHELL_NAME": bad assignment\n"
 
 void		builtin_pwd(t_env *c)
 {
@@ -83,6 +84,11 @@ void		builtin_export(t_env *c)
 	i = 1;
 	while (c->av[i])
 	{
+		if (c->av[i][0] == '=')
+		{
+			write(1, BAD_ASS, sizeof(BAD_ASS) - 1);
+			return ;
+		}
 		if (!(ptr = ft_strchr(c->av[i], '=')))
 			tmp = set_env_element(c->my_env, c->av[i], "");
 		else

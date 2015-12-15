@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#define SYN_ERR SHELL_NAME": Syntax Error\n"
 
 char		**set_env_element(char **env, char *key, char *value)
 {
@@ -48,16 +49,19 @@ void		builtin_env(t_env *c)
 
 void		builtin_setenv(t_env *c)
 {
-	int			j;
 	char		**tmp;
 	const char	error[] = "setenv: Too many arguments.\n";
 
-	j = 0;
 	if (c->ac > 3)
 		write(1, error, sizeof(error) - 1);
 	else if (!c->av[1])
 	{
 		put_string_tab(c->my_env);
+		return ;
+	}
+	if (ft_strchr(c->av[1], '='))
+	{
+		write(1, SYN_ERR, sizeof(SYN_ERR) - 1);
 		return ;
 	}
 	tmp = set_env_element(c->my_env, c->av[1], c->av[2]);
