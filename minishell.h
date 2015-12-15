@@ -18,6 +18,7 @@
 # include <libft.h>
 
 # define SHELL_NAME "mychel"
+# define PROMPT "$> "
 
 typedef	struct		s_env
 {
@@ -70,5 +71,6 @@ void				do_unset(t_env *c, char *key);
 void				builtin_unset(t_env *c);
 
 void				shlvl(t_env *c);
+void				do_sigint(int num);
 
 #endif

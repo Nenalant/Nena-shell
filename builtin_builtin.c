@@ -39,21 +39,28 @@ void			builtin_builtin(t_env *c)
 
 void			launch_command(t_env *c)
 {
-	if (c->line && *c->line)
+	int			i;
+	char		**cmd;
+
+	if (!(cmd = ft_strsplit(c->line, ';')))
+		return ;
+	i = 0;
+	while (cmd[i])
 	{
-		c->av = get_call_command(c->line);
-		if (c->av && c->av[0])
+		if (cmd[i] && *cmd[i])
 		{
-			if (!do_builtin(c))
+			c->av = get_call_command(cmd[i]);
+			if (c->av && c->av[0])
 			{
-				if ((c->path = finding_bin(c)))
-					exec_bin(c);
-				else
-					unknown_command(c);
+				if (!do_builtin(c))
+					((c->path = finding_bin(c))) ? exec_bin(c)
+					: unknown_command(c);
 			}
+			ft_tab_free(c->av);
 		}
-		ft_tab_free(c->av);
+		free(cmd[i++]);
 	}
+	free(cmd);
 }
 
 void			do_unset(t_env *c, char *key)

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 #define UNKNOWN_COMMAND_ERROR SHELL_NAME": command not found: "
 
 int			file_exist(char *str)
@@ -81,16 +80,17 @@ int			main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	signal(SIGINT, &do_sigint);
 	if (!(c = (t_env *)malloc(sizeof(t_env))))
 		return (-1);
 	c->my_env = ft_tab_copy(env);
 	shlvl(c);
-	write(1, "$> ", 3);
+	write(1, PROMPT, 3);
 	while (get_next_line(0, &c->line) == 1)
 	{
 		launch_command(c);
 		free(c->line);
-		write(1, "$> ", 3);
+		write(1, PROMPT, 3);
 	}
 	return (0);
 }

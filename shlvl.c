@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#define SIG_PROMPT "\n"PROMPT
 
 void		shlvl(t_env *c)
 {
@@ -33,4 +34,10 @@ void		shlvl(t_env *c)
 		ft_tab_free(c->my_env);
 		c->my_env = tmp;
 	}
+}
+
+void		do_sigint(int num)
+{
+	(void)num;
+	write(1, SIG_PROMPT, sizeof(SIG_PROMPT));
 }

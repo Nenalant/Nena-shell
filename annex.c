@@ -20,11 +20,13 @@ void		exec_bin(t_env *c)
 	int			pid;
 	int			status;
 
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid > 0)
 		waitpid(pid, &status, 0);
 	else if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		execve(c->path, c->av, c->my_env);
 		write(1, BIN_ERROR, sizeof(BIN_ERROR) - 1);
 		write(1, c->av[0], ft_strlen(c->av[0]));
@@ -34,6 +36,7 @@ void		exec_bin(t_env *c)
 	else
 		write(1, FORK_FAIL, sizeof(FORK_FAIL) - 1);
 	free(c->path);
+	signal(SIGINT, &do_sigint);
 }
 
 size_t		get_ac(char **av)
