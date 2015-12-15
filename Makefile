@@ -7,7 +7,8 @@ SRC =	minishell.c \
 		builtin_builtin.c \
 		find_bin.c \
 		annex.c \
-		annex2.c
+		annex2.c \
+		shlvl.c
 
 FLAGS = -Wall -Wextra -Werror
 

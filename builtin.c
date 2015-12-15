@@ -54,7 +54,7 @@ void		do_cd(t_env *c, char *moveto)
 	char		*oldtmp;
 	char		*tmpgetcwd;
 
-	oldtmp = getcwd(NULL, 0);
+	oldtmp = ft_strdup(get_env_value(c->my_env, "PWD") + 4);
 	if (!try_cd(moveto, oldtmp))
 		return ;
 	tmp = set_env_element(c->my_env, "OLDPWD", oldtmp);

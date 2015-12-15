@@ -84,6 +84,7 @@ int			main(int ac, char **av, char **env)
 	if (!(c = (t_env *)malloc(sizeof(t_env))))
 		return (-1);
 	c->my_env = ft_tab_copy(env);
+	shlvl(c);
 	write(1, "$> ", 3);
 	while (get_next_line(0, &c->line) == 1)
 	{

@@ -69,4 +69,6 @@ void				launch_command(t_env *c);
 void				do_unset(t_env *c, char *key);
 void				builtin_unset(t_env *c);
 
+void				shlvl(t_env *c);
+
 #endif
